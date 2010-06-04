@@ -1,30 +1,21 @@
 package org.openmrs.module.htmlformentry.infopath;
 
-import java.io.File;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-
-import org.openmrs.module.htmlformentry.infopath.Rule;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 
 public class Page {
 
-	private final String file;
 	private Document document;
+    private String title;
 
-    public Page(String file) throws SAXException, IOException, ParserConfigurationException {
-		this.file = file;
-		document = DocumentFactory.createXmlDocumentFromStream(getClass().getClassLoader().getResourceAsStream(file));
-	}
-
-	private String getTitle() {
-		return new File(file).getName().replace(".xsl", "");
+    public Page(Document document, String title) {
+		this.document = document;
+        this.title = title;
 	}
 
 	public Node toXML() throws ParserConfigurationException, DOMException, XPathExpressionException {
@@ -38,7 +29,7 @@ public class Page {
 
     private org.w3c.dom.Element createPageElement(Document newDocument) throws XPathExpressionException {
         org.w3c.dom.Element pageElement = newDocument.createElement("page");
-        pageElement.setAttribute("title", getTitle());
+        pageElement.setAttribute("title", title);
         pageElement.appendChild(newDocument.importNode(getBody(), true));
         return pageElement;
     }

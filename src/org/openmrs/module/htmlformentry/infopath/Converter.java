@@ -1,33 +1,39 @@
 package org.openmrs.module.htmlformentry.infopath;
 
-import java.io.IOException;
+import org.xml.sax.SAXException;
+import org.w3c.dom.Document;
 
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.openmrs.module.htmlformentry.infopath.Rule;
-import org.xml.sax.SAXException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Converter {
 
-	private Rules rules;
-	private Pages pages;
+    private Rules rules;
+    private Pages pages;
 
-	public Converter(String... files) throws SAXException, IOException,
-			ParserConfigurationException {
-		pages = new Pages();
-		for (String file : files) {
-			pages.add(new Page(file));
-		}
-		rules = new Rules();
-	}
+    public Converter(String... files) throws SAXException, IOException,
+            ParserConfigurationException {
+        pages = new Pages();
+        for (String file : files) {
+            InputStream fileStream = getClass().getClassLoader().getResourceAsStream(file);
+            Document xslDocument = DocumentFactory.createXmlDocumentFromStream(fileStream);
+            pages.add(new Page(xslDocument, getTitle(file)));
+        }
+        rules = new Rules();
+    }
 
-	public String toHTMLForm() throws Exception {
-		pages.applyRules(rules);
-		return pages.toHTMLForm();
-	}
+    private String getTitle(String file) {
+        return new File(file).getName().replace(".xsl", "");
+    }
 
-	public void addRule(Rule rule) {
-		rules.add(rule);
-	}
+    public String toHTMLForm() throws Exception {
+        return pages.toHTMLForm(rules);
+    }
+
+    public void addRule(Rule rule) {
+        rules.add(rule);
+    }
 
 }
