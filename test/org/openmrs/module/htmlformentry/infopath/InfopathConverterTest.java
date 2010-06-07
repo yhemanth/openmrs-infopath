@@ -7,8 +7,6 @@ import org.openmrs.module.htmlformentry.HtmlFormEntryUtil;
 import org.w3c.dom.Document;
 
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 
 public class InfopathConverterTest {
 
@@ -55,10 +53,10 @@ public class InfopathConverterTest {
 
         String htmlForm = converter.toHTMLForm();
 
-        InfopathConverterAssert.assertControlReplaced(patientGivenName, htmlForm, xpath,
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(htmlForm, patientGivenName,
                 "//lookup[@expression='patient.personName.givenName']");
-        InfopathConverterAssert.assertControlReplaced(patientFamilyName, htmlForm, xpath,
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(htmlForm, patientFamilyName,
                 "//lookup[@expression='patient.personName.familyName']");
     }
-
+    
 }

@@ -2,16 +2,11 @@ package org.openmrs.module.htmlformentry.infopath;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.openmrs.module.htmlformentry.HtmlFormEntryUtil;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import junit.framework.Assert;
-
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPath;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class PageTest {
@@ -44,7 +39,7 @@ public class PageTest {
 
         String htmlForm = pages.toHTMLForm(rules);
 
-        InfopathConverterAssert.assertControlReplaced(patientGivenName, htmlForm, XPathUtils.createXPath(),
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(htmlForm, patientGivenName,
                 "//lookup[@expression='patient.personName.givenName']");
     }
 
@@ -55,7 +50,7 @@ public class PageTest {
     }
 
     @Test
-    public void shouldReplaceEncounterDateElement() throws Exception {
+    public void shouldReplaceEncounterDateBindingWithEncounterDateElement() throws Exception {
         Document testDocument = createTestDocument("<span class=\"xdDTText xdBehavior_GTFormattingNoBUI\" " +
                 "xd:binding=\"encounter/encounter.encounter_datetime\" xd:xctname=\"DTPicker_DTText\" >" +
                 "<xsl:attribute name=\"xd:num\">" +
@@ -82,7 +77,53 @@ public class PageTest {
 
         String htmlForm = pages.toHTMLForm(rules);
 
-        InfopathConverterAssert.assertControlReplaced(bindingName, htmlForm, XPathUtils.createXPath(), "//encounterDate");
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(htmlForm, bindingName, "//encounterDate");
     }
 
+    @Test
+    public void shouldReplaceEncounterLocationBindingsWithEncounterLocationElement() throws Exception {
+        String locationRusumo =
+                "<em><input class=\"xdBehavior_Boolean\" name=\"{generate-id(encounter/encounter.location_id)}\" " +
+                "xd:binding=\"encounter/encounter.location_id\" xd:xctname=\"OptionButton\" xd:onValue=\"30\">" +
+                "<xsl:attribute name=\"xd:value\">" +
+                "<xsl:value-of select=\"encounter/encounter.location_id\"/>" +
+                "</xsl:attribute>" +
+                "<xsl:if test=\"encounter/encounter.location_id=&quot;30&quot;\">" +
+                "<xsl:attribute name=\"CHECKED\">CHECKED</xsl:attribute>" +
+                "</xsl:if>" +
+                "</input>" +
+                "</em>" +
+                "<font face=\"Arial\">Rusumo </font>";
+
+        String locationMulundi =
+                "<em>" +
+                "<strong><input class=\"xdBehavior_Boolean\" name=\"{generate-id(encounter/encounter.location_id)}\" " +
+                "xd:binding=\"encounter/encounter.location_id\" xd:onValue=\"27\">" +
+                "<xsl:attribute name=\"xd:value\">" +
+                "<xsl:value-of select=\"encounter/encounter.location_id\"/>" +
+                "</xsl:attribute>" +
+                "<xsl:if test=\"encounter/encounter.location_id=&quot;27&quot;\">" +
+                "<xsl:attribute name=\"CHECKED\">CHECKED</xsl:attribute>" +
+                "</xsl:if>" +
+                "</input>" +
+                "</strong>" +
+                "</em>" +
+                "<font face=\"Arial\">Mulindi        </font>";
+
+        Document testDocument = createTestDocument("<div>" + locationRusumo + locationMulundi + "</div>");
+
+        Pages pages = new Pages();
+        pages.add(new Page(testDocument, "Page1"));
+
+        Rules rules = new Rules();
+        String encounterLocationBinding = "encounter/encounter.location_id";
+        rules.add(new MultiValuedBindingRule(encounterLocationBinding, "xd:onValue",
+                        "<encounterLocation />", "order"));
+
+        String htmlForm = pages.toHTMLForm(rules);
+
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(htmlForm, encounterLocationBinding,
+                "//encounterLocation", "order", "30,27");
+
+    }
 }
