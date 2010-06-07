@@ -18,7 +18,7 @@ public class Converter {
         pages = new Pages();
         for (String file : files) {
             InputStream fileStream = getClass().getClassLoader().getResourceAsStream(file);
-            Document xslDocument = DocumentFactory.createXmlDocumentFromStream(fileStream);
+            Document xslDocument = XmlDocumentFactory.createXmlDocumentFromStream(fileStream);
             pages.add(new Page(xslDocument, getTitle(file)));
         }
         rules = new Rules();

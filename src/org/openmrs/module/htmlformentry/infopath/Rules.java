@@ -6,9 +6,6 @@ import org.openmrs.module.htmlformentry.infopath.Rule;
 
 public class Rules extends ArrayList<Rule> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public void applyTo(Page page) throws Exception {

@@ -1,4 +1,4 @@
-package org.openmrs.module.htmlformentry.converter;
+package org.openmrs.module.htmlformentry.infopath;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -16,9 +16,9 @@ import org.w3c.dom.Document;
 
 public class InfopathConverterTest {
 
-	private static final String TEST_INFOPATH_PAGE_XSL = "org/openmrs/module/htmlformentry/converter/include/Page1.xsl";
-	private static final String TEST_INFOPATH_PATIENT_ATTRIBUTES_XSL = "org/openmrs/module/htmlformentry/converter/include/PatientAttributes.xsl";
-	private static final String TEST_INFOPATH_PAGE2_XSL = "org/openmrs/module/htmlformentry/converter/include/Page2.xsl";
+	private static final String TEST_INFOPATH_PAGE_XSL = "org/openmrs/module/htmlformentry/infopath/include/Page1.xsl";
+	private static final String TEST_INFOPATH_PATIENT_ATTRIBUTES_XSL = "org/openmrs/module/htmlformentry/infopath/include/PatientAttributes.xsl";
+	private static final String TEST_INFOPATH_PAGE2_XSL = "org/openmrs/module/htmlformentry/infopath/include/Page2.xsl";
 	private XPath xpath;
 
 	@Before
@@ -61,10 +61,9 @@ public class InfopathConverterTest {
 		Document document = HtmlFormEntryUtil.stringToDocument(converter
 				.toHTMLForm());
 
-//		Assert.assertEquals(0, ((NodeList) xpath.evaluate(query, document,
-//				XPathConstants.NODESET)).getLength());
 		Assert.assertNotNull(xpath.evaluate(
 				"//lookup[@expression='patient.personName.givenName']",
 				document, XPathConstants.NODE));
 	}
+
 }

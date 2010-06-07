@@ -19,7 +19,7 @@ public class Page {
 	}
 
 	public Node toXML() throws ParserConfigurationException, DOMException, XPathExpressionException {
-		Document newDocument = DocumentFactory.createEmptyXmlDocument();
+		Document newDocument = XmlDocumentFactory.createEmptyXmlDocument();
 
         org.w3c.dom.Element pageElement = createPageElement(newDocument);
 

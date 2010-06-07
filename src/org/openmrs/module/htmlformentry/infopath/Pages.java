@@ -14,7 +14,7 @@ public class Pages extends ArrayList<Page> {
 	private static final long serialVersionUID = 1L;
 
     public String toHTMLForm(Rules rules) throws Exception {
-        Document newDocument = DocumentFactory.createEmptyXmlDocument();
+        Document newDocument = XmlDocumentFactory.createEmptyXmlDocument();
 		Node htmlFormNode = newDocument.appendChild(newDocument.createElement("htmlform"));
         for (Page page : this) {
             rules.applyTo(page);

@@ -9,7 +9,7 @@ import javax.xml.parsers.DocumentBuilder;
 import java.io.InputStream;
 import java.io.IOException;
 
-public class DocumentFactory {
+public class XmlDocumentFactory {
     public static Document createXmlDocumentFromStream(InputStream stream) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder builder = createDocumentBuilder();
         return builder.parse(stream);

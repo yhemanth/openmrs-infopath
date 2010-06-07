@@ -22,7 +22,7 @@ public class Rule {
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
 
-            Document htmlFormDocument = DocumentFactory
+            Document htmlFormDocument = XmlDocumentFactory
                     .createXmlDocumentFromStream(new ByteArrayInputStream(htmlFormElement.getBytes()));
 
             Element newElement = htmlFormDocument.getDocumentElement();
