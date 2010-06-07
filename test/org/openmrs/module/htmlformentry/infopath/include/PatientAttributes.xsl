@@ -7,6 +7,9 @@
 				<meta content="text/html" http-equiv="Content-Type"></meta>
 			</head>
 			<body>
+                <span hideFocus="1" class="xdTextBox " title="" tabIndex="-1" xd:disableEditing="yes" xd:binding="patient/patient.medical_record_number" xd:xctname="PlainText" xd:CtrlId="CTRL7" style="TEXT-ALIGN: center; FONT-STYLE: normal; WIDTH: 161px; FONT-FAMILY: Arial; WORD-WRAP: normal; WHITE-SPACE: nowrap; COLOR: #000000; FONT-SIZE: medium; FONT-WEIGHT: bold; TEXT-DECORATION: none">
+                    <xsl:value-of select="patient/patient.medical_record_number"/>
+				</span>
                 <div style="LINE-HEIGHT: 115%; MARGIN-TOP: 0in; PADDING-LEFT: 0in; PADDING-RIGHT: 0in; MARGIN-BOTTOM: 0pt; FONT-SIZE: 11pt">
                     <span style="FONT-SIZE: 12pt">
                         <font face="Arial">
