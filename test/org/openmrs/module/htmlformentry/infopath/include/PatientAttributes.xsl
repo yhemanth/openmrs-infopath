@@ -22,6 +22,20 @@
                         </font>
                     </span>
                 </div>
+                <div>
+                    <font face="Arial">
+                        <font face="Arial">
+                            <strong>Nom/ </strong>
+                            <font color="#808080">
+                                <em>Last name</em>
+                            </font>: </font>
+                        <font size="2"><span hideFocus="1" class="xdTextBox" title="" tabIndex="-1" xd:disableEditing="yes" xd:binding="patient/patient.family_name" xd:xctname="PlainText" xd:CtrlId="CTRL4" style="FONT-STYLE: normal; WIDTH: 130px; FONT-FAMILY: Arial; WORD-WRAP: normal; WHITE-SPACE: nowrap; COLOR: #000000; FONT-SIZE: small; FONT-WEIGHT: bold; TEXT-DECORATION: none">
+                                <xsl:value-of select="patient/patient.family_name"/>
+                            </span>
+                            <font face="Arial">     </font>
+                        </font>
+                    </font>
+                </div>
 			</body>
 		</html>
 	</xsl:template>

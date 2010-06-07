@@ -12,6 +12,7 @@ public class Page {
 
 	private Document document;
     private String title;
+    private InfopathBindings bindings;
 
     public Page(Document document, String title) {
 		this.document = document;
@@ -34,10 +35,6 @@ public class Page {
         return pageElement;
     }
 
-    public void applyRule(Rule rule) throws Exception {
-		rule.apply(document);
-	}
-
     public Node getBody() throws XPathExpressionException {
 		NodeList matchNodes = XPathUtils.matchNodes(document, "//body");
 		if (matchNodes.getLength() > 0) {
@@ -47,4 +44,17 @@ public class Page {
 		}
 	}
 
+    public InfopathBindings extractBindings() throws Exception {
+        NodeList nodes = XPathUtils.matchNodes(document, "//*[@xd:binding]");
+        bindings = new InfopathBindings();
+        for (int i=0; i<nodes.getLength(); i++) {
+            bindings.addBinding(nodes.item(i));                                     
+        }
+        return bindings;
+    }
+
+    public void applyRules(Rules rules) throws Exception {
+        InfopathBindings bindings = extractBindings();
+        bindings.applyRules(rules, document);
+    }
 }

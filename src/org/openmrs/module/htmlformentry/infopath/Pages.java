@@ -17,7 +17,7 @@ public class Pages extends ArrayList<Page> {
         Document newDocument = XmlDocumentFactory.createEmptyXmlDocument();
 		Node htmlFormNode = newDocument.appendChild(newDocument.createElement("htmlform"));
         for (Page page : this) {
-            rules.applyTo(page);
+            page.applyRules(rules);
             Node importedNode = newDocument.importNode(page.toXML(), true);
             htmlFormNode.appendChild(importedNode);
         }

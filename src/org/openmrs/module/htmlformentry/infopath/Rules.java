@@ -1,18 +1,33 @@
 package org.openmrs.module.htmlformentry.infopath;
 
-import java.util.ArrayList;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
-import org.openmrs.module.htmlformentry.infopath.Rule;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Rules extends ArrayList<Rule> {
+public class Rules {
 
 	private static final long serialVersionUID = 1L;
+    private Map<String, Rule> rulesMap;
 
-	public void applyTo(Page page) throws Exception {
-		for (Rule rule : this) {
-			page.applyRule(rule);
-		}
+    public Rules() {
+        rulesMap = new HashMap<String, Rule>();
+    }
 
-	}
+    private Rule lookup(String bindingName) {
+        return rulesMap.get(bindingName);
+    }
 
+    public void add(Rule rule) {
+        rulesMap.put(rule.getBindingName(), rule);
+    }
+
+    public void apply(Document document, String bindingName, List<Node> bindings) throws Exception {
+        Rule rule = lookup(bindingName);
+        if (rule != null) {
+            rule.apply(document, bindings);
+        }
+    }
 }

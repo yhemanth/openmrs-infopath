@@ -1,8 +1,7 @@
 package org.openmrs.module.htmlformentry.infopath;
 
-import java.util.Iterator;
-
 import javax.xml.namespace.NamespaceContext;
+import java.util.Iterator;
 
 public class XDNamespaceContext implements NamespaceContext {
 

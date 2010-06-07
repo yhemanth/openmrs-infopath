@@ -1,13 +1,13 @@
 package org.openmrs.module.htmlformentry.infopath;
 
-import org.xml.sax.SAXException;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-import java.io.InputStream;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class XmlDocumentFactory {
     public static Document createXmlDocumentFromStream(InputStream stream) throws ParserConfigurationException, IOException, SAXException {
