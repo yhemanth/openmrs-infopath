@@ -50,15 +50,15 @@ public class InfopathConverterTest {
 
         String patientMedicalRecordNumber = "patient/patient.medical_record_number";
         String patientIdLookupAttribute = "patient.patientIdentifier.identifier";
-        converter.addRule(new Rule(patientMedicalRecordNumber, formLookupExpression(patientIdLookupAttribute)));
+        converter.addRule(new SimpleRule(patientMedicalRecordNumber, formLookupExpression(patientIdLookupAttribute)));
 
         String patientGivenName = "patient/patient.given_name";
         String givenNameLookupAttribute = "patient.personName.givenName";
-        converter.addRule(new Rule(patientGivenName, formLookupExpression(givenNameLookupAttribute)));
+        converter.addRule(new SimpleRule(patientGivenName, formLookupExpression(givenNameLookupAttribute)));
 
         String patientFamilyName = "patient/patient.family_name";
         String familyNameLookupAttribute = "patient.personName.familyName";
-        converter.addRule(new Rule(patientFamilyName, formLookupExpression(familyNameLookupAttribute)));
+        converter.addRule(new SimpleRule(patientFamilyName, formLookupExpression(familyNameLookupAttribute)));
 
         String htmlForm = converter.toHTMLForm();
 
@@ -75,7 +75,7 @@ public class InfopathConverterTest {
         Converter converter = new Converter(TEST_INFOPATH_ENCOUNTER_ATTRIBUTES_XSL);
 
         String dateBinding = "encounter/encounter.encounter_datetime";
-        converter.addRule(new Rule(dateBinding, "<encounterDate/>"));
+        converter.addRule(new SimpleRule(dateBinding, "<encounterDate/>"));
         String locationBinding = "encounter/encounter.location_id";
         converter.addRule(new MultiValuedBindingRule(
                 locationBinding, "xd:onValue", "<encounterLocation />", "order"));

@@ -13,13 +13,13 @@ public class InfopathConverterAssert {
 
     public static void assertBindingReplacedWithHtmlFormElement(
             String htmlForm, String binding, String htmlFormElement) throws Exception {
-        NodeList nodes = findNodes(htmlForm, binding, htmlFormElement);
+        Assert.assertFalse("Should not contain : " + binding, htmlForm.contains(binding));
+        NodeList nodes = findNodes(htmlForm, htmlFormElement);
         Assert.assertEquals(1, nodes.getLength());
     }
 
-    private static NodeList findNodes(String htmlForm, String binding, String htmlFormElement) throws Exception {
+    private static NodeList findNodes(String htmlForm, String htmlFormElement) throws Exception {
         XPath xpath = XPathUtils.createXPath();
-        Assert.assertFalse("Should not contain : " + binding, htmlForm.contains(binding));
         Document document = HtmlFormEntryUtil.stringToDocument(htmlForm);
         NodeList nodes = (NodeList) xpath.evaluate(htmlFormElement, document, XPathConstants.NODESET);
         return nodes;
@@ -28,9 +28,14 @@ public class InfopathConverterAssert {
     public static void assertBindingReplacedWithHtmlFormElement
             (String htmlForm, String binding, String htmlFormElement,
              String formAttribute, String formAttributeValue) throws Exception {
-        NodeList nodes = findNodes(htmlForm, binding, htmlFormElement);
+        Assert.assertFalse("Should not contain : " + binding, htmlForm.contains(binding));
+        NodeList nodes = findNodes(htmlForm, htmlFormElement);
         Assert.assertEquals(1, nodes.getLength());
         Node n = nodes.item(0);
         Assert.assertEquals(formAttributeValue, n.getAttributes().getNamedItem(formAttribute).getNodeValue());
+    }
+
+    public static void assertElementDoesNotExist(String htmlForm, String selector) throws Exception {
+        Assert.assertNull(findNodes(htmlForm, selector));
     }
 }

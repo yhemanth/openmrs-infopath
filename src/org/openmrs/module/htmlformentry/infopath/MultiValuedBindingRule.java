@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 
 import java.util.List;
 
-public class MultiValuedBindingRule extends Rule {
+public class MultiValuedBindingRule extends SimpleRule {
     private String bindingValueProperty;
     private String htmlFormElementAttribute;
 

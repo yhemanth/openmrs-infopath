@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class Rules {
 
-	private static final long serialVersionUID = 1L;
     private Map<String, Rule> rulesMap;
 
     public Rules() {

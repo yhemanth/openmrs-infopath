@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class PageTest {
-    private static final String HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+    public static final String HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<xsl:stylesheet version=\"1.0\" xmlns:xsf2=\"http://schemas.microsoft.com/office/infopath/2006/solutionDefinition/extensions\" xmlns:xdEnvironment=\"http://schemas.microsoft.com/office/infopath/2006/xslt/environment\" xmlns:xdUser=\"http://schemas.microsoft.com/office/infopath/2006/xslt/User\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:openmrs=\"http://staging.pih-emr.org:8080/openmrs/moduleServlet/formentry/forms/schema/112-92\" xmlns:my=\"http://schemas.microsoft.com/office/infopath/2003/myXSD/2006-07-25T11:22:21\" xmlns:xd=\"http://schemas.microsoft.com/office/infopath/2003\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:msxsl=\"urn:schemas-microsoft-com:xslt\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:xdExtension=\"http://schemas.microsoft.com/office/infopath/2003/xslt/extension\" xmlns:xdXDocument=\"http://schemas.microsoft.com/office/infopath/2003/xslt/xDocument\" xmlns:xdSolution=\"http://schemas.microsoft.com/office/infopath/2003/xslt/solution\" xmlns:xdFormatting=\"http://schemas.microsoft.com/office/infopath/2003/xslt/formatting\" xmlns:xdImage=\"http://schemas.microsoft.com/office/infopath/2003/xslt/xImage\" xmlns:xdUtil=\"http://schemas.microsoft.com/office/infopath/2003/xslt/Util\" xmlns:xdMath=\"http://schemas.microsoft.com/office/infopath/2003/xslt/Math\" xmlns:xdDate=\"http://schemas.microsoft.com/office/infopath/2003/xslt/Date\" xmlns:sig=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xdSignatureProperties=\"http://schemas.microsoft.com/office/infopath/2003/SignatureProperties\">" +
             "<xsl:output method=\"html\" indent=\"no\"/>" +
             "<xsl:template match=\"form\">" +
@@ -19,7 +19,7 @@ public class PageTest {
             "<meta content=\"text/html\" http-equiv=\"Content-Type\"></meta>" +
             "</head>" +
             "<body>";
-    private static final String FOOTER = "</body></html></xsl:template></xsl:stylesheet>";
+    public static final String FOOTER = "</body></html></xsl:template></xsl:stylesheet>";
 
 
     @Test
@@ -35,7 +35,7 @@ public class PageTest {
 
         Rules rules = new Rules();
         String patientGivenName = "patient/patient.given_name";
-        rules.add(new Rule(patientGivenName, "<lookup expression=\"patient.personName.givenName\"></lookup>"));
+        rules.add(new SimpleRule(patientGivenName, "<lookup expression=\"patient.personName.givenName\"></lookup>"));
 
         String htmlForm = pages.toHTMLForm(rules);
 
@@ -43,7 +43,7 @@ public class PageTest {
                 "//lookup[@expression='patient.personName.givenName']");
     }
 
-    private Document createTestDocument(String bindingToReplace) throws ParserConfigurationException, IOException, SAXException {
+    public Document createTestDocument(String bindingToReplace) throws ParserConfigurationException, IOException, SAXException {
         String xslString = HEADER + bindingToReplace + FOOTER;
         Document xslDocument = XmlDocumentFactory.createXmlDocumentFromStream(new ByteArrayInputStream(xslString.getBytes()));
         return xslDocument;
@@ -73,7 +73,7 @@ public class PageTest {
 
         Rules rules = new Rules();
         String bindingName = "encounter/encounter.encounter_datetime";
-        rules.add(new Rule(bindingName, "<encounterDate />"));
+        rules.add(new SimpleRule(bindingName, "<encounterDate />"));
 
         String htmlForm = pages.toHTMLForm(rules);
 

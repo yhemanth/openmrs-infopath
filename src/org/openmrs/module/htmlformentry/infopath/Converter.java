@@ -32,7 +32,7 @@ public class Converter {
         return pages.toHTMLForm(rules);
     }
 
-    public void addRule(Rule rule) {
+    public void addRule(SimpleRule rule) {
         rules.add(rule);
     }
 
