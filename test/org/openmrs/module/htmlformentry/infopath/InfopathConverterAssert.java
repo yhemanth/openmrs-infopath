@@ -36,6 +36,6 @@ public class InfopathConverterAssert {
     }
 
     public static void assertElementDoesNotExist(String htmlForm, String selector) throws Exception {
-        Assert.assertNull(findNodes(htmlForm, selector));
+        Assert.assertEquals(0, findNodes(htmlForm, selector).getLength());
     }
 }

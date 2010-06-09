@@ -13,6 +13,7 @@ public class Page {
 	private Document document;
     private String title;
     private InfopathBindings bindings;
+    private Document htmlFormPageDocument;
 
     public Page(Document document, String title) {
 		this.document = document;
@@ -20,18 +21,21 @@ public class Page {
 	}
 
 	public Node toXML() throws ParserConfigurationException, DOMException, XPathExpressionException {
-		Document newDocument = XmlDocumentFactory.createEmptyXmlDocument();
-
-        org.w3c.dom.Element pageElement = createPageElement(newDocument);
-
-        newDocument.appendChild(pageElement);
-		return newDocument.getDocumentElement();
+		return htmlFormPageDocument.getDocumentElement();
 	}
+
+    private void createHtmlFormPageDocument() throws ParserConfigurationException, XPathExpressionException {
+        htmlFormPageDocument = XmlDocumentFactory.createEmptyXmlDocument();
+
+        org.w3c.dom.Element pageElement = createPageElement(htmlFormPageDocument);
+        pageElement.appendChild(htmlFormPageDocument.importNode(getBody(), true));
+
+        htmlFormPageDocument.appendChild(pageElement);
+    }
 
     private org.w3c.dom.Element createPageElement(Document newDocument) throws XPathExpressionException {
         org.w3c.dom.Element pageElement = newDocument.createElement("page");
         pageElement.setAttribute("title", title);
-        pageElement.appendChild(newDocument.importNode(getBody(), true));
         return pageElement;
     }
 
@@ -56,5 +60,7 @@ public class Page {
     public void applyRules(Rules rules) throws Exception {
         InfopathBindings bindings = extractBindings();
         bindings.applyRules(rules, document);
+        createHtmlFormPageDocument();
+        new SanitizerRule().apply(htmlFormPageDocument, null);
     }
 }

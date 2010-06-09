@@ -197,6 +197,7 @@ public class HtmlFormEntryUtil {
     public static Document stringToDocument(String xml) throws Exception {
     	try {
 	        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setNamespaceAware(true);
 	        DocumentBuilder db = dbf.newDocumentBuilder();
 	        Document document = db.parse(new InputSource(new StringReader(xml)));
 	        return document;

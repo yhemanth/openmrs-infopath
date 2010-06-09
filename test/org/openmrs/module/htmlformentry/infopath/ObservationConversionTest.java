@@ -27,7 +27,7 @@ public class ObservationConversionTest {
                 "</span>\n" +
                 "</div>";
 
-        Document testDocument = new PageTest().createTestDocument(observationCheckBoxControl);
+        Document testDocument = new PatientConversionTest().createTestDocument(observationCheckBoxControl);
 
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1"));
