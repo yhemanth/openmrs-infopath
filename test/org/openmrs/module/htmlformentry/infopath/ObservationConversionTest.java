@@ -29,6 +29,12 @@ public class ObservationConversionTest extends AbstractConversionTest {
 
         Document testDocument = createTestDocument(patientHospitalizedControl);
 
+        String convertedHtmlForm = convert(testDocument);
+
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\" and @answerConceptIds=\"TBD\"]");
+    }
+
+    private String convert(Document testDocument) throws Exception {
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1"));
 
@@ -36,8 +42,7 @@ public class ObservationConversionTest extends AbstractConversionTest {
         rules.add(new ObservationConversionRule());
 
         String convertedHtmlForm = pages.toHTMLForm(rules);
-
-        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\" and @answerConceptIds=\"TBD\"]");
+        return convertedHtmlForm;
     }
 
     @Test
@@ -81,13 +86,7 @@ public class ObservationConversionTest extends AbstractConversionTest {
         Document testDocument = createTestDocument(generalExamFindingsControl);
 
 
-        Pages pages = new Pages();
-        pages.add(new Page(testDocument, "Page1"));
-
-        Rules rules = new Rules();
-        rules.add(new ObservationConversionRule());
-
-        String convertedHtmlForm = pages.toHTMLForm(rules);
+        String convertedHtmlForm = convert(testDocument);
 
         InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(
                 convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\" and @answerConceptIds=\"TBD_well_appearing\"]");
@@ -115,15 +114,79 @@ public class ObservationConversionTest extends AbstractConversionTest {
         Document testDocument = createTestDocument(historyOfPresentIllnessControl);
 
 
-        Pages pages = new Pages();
-        pages.add(new Page(testDocument, "Page1"));
-
-        Rules rules = new Rules();
-        rules.add(new ObservationConversionRule());
-
-        String convertedHtmlForm = pages.toHTMLForm(rules);
+        String convertedHtmlForm = convert(testDocument);
 
         InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(
                 convertedHtmlForm, "TBD", "//obs[@conceptId=\\\"TBD\\\" and style=\"checkbox\"]");
+    }
+
+    @Test
+    @Ignore
+    public void shouldConvertFreeTextObservationsIntoTextAreaObservationElement() throws Exception {
+        String relevantIntervalHistoryControl = "<div><font>" +
+                "<span xd:binding=\"obs/history_of_present_illness/relevant_interval_history/value\">" +
+                    "<xsl:value-of select=\"obs/history_of_present_illness/relevant_interval_history/value\"/>" +
+                "</span>" +
+                "</font></div>";
+
+        Document testDocument = createTestDocument(relevantIntervalHistoryControl);
+
+        String convertedHtmlForm = convert(testDocument);
+
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(
+                convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\" style=\"textarea\"");
+    }
+
+    @Test
+    @Ignore
+    public void shouldConvertNumericObservationsIntoTextAreaObservationElement() throws Exception {
+        String weightControl = "<div><font>Poids</font>" +
+                "<span xd:binding=\"obs/physical_exam/vital_signs_construct/weight_kg/value\">" +
+                    "<xsl:attribute name=\"xd:num\">" +
+                    "<xsl:value-of select=\"obs/physical_exam/vital_signs_construct/weight_kg/value\"/>" +
+                    "</xsl:attribute>" +
+                    "<xsl:choose>" +
+                    "<xsl:when test=\"function-available('xdFormatting:formatString')\">" +
+                    "<xsl:value-of select=\"xdFormatting:formatString(obs/physical_exam/vital_signs_construct/weight_kg/value,&quot;number&quot;,&quot;numDigits:auto;negativeOrder:1;&quot;)\"/>" +
+                    "</xsl:when>" +
+                    "<xsl:otherwise>" +
+                    "<xsl:value-of select=\"obs/physical_exam/vital_signs_construct/weight_kg/value\"/>" +
+                    "</xsl:otherwise>" +
+                    "</xsl:choose>" +
+                "</span>" +
+                "<font>kg</font></div>";
+
+        Document testDocument = createTestDocument(weightControl);
+
+        String convertedHtmlForm = convert(testDocument);
+
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\"");
+    }
+
+    @Test
+    @Ignore
+    public void shouldConvertAbsoluteDateObservationsIntoTextAreObservationElement() throws Exception {
+        String previousResultsDateControl = "<div>" +
+                "<span xd:binding=\"obs/previous_labs_including_today/other_lab_test_construct/date_of_laboratory_test/value\">" +
+                    "<xsl:attribute name=\"xd:num\">" +
+                    "<xsl:value-of select=\"obs/previous_labs_including_today/other_lab_test_construct/date_of_laboratory_test/value\"/>" +
+                    "</xsl:attribute>" +
+                    "<xsl:choose>" +
+                    "<xsl:when test=\"function-available('xdFormatting:formatString')\">" +
+                    "<xsl:value-of select=\"xdFormatting:formatString(obs/previous_labs_including_today/other_lab_test_construct/date_of_laboratory_test/value,&quot;date&quot;,&quot;dateFormat:Short Date;&quot;)\"/>" +
+                    "</xsl:when>" +
+                    "<xsl:otherwise>" +
+                    "<xsl:value-of select=\"obs/previous_labs_including_today/other_lab_test_construct/date_of_laboratory_test/value\"/>" +
+                    "</xsl:otherwise>" +
+                    "</xsl:choose>" +
+                "</span>" +
+                "<button class=\"xdDTButton\" xd:xctname=\"DTPicker_DTButton\" xd:innerCtrl=\"_DTButton\" tabIndex=\"-1\">" +
+                    "<img src=\"res://infopath.exe/calendar.gif\"/>" +
+                "</button>" +
+                "</div>";
+
+        Document testDocument = createTestDocument(previousResultsDateControl);
+        String convertedHtmlForm = convert(testDocument);
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\"");
     }
 }
