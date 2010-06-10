@@ -61,6 +61,6 @@ public class Page {
         InfopathBindings bindings = extractBindings();
         bindings.applyRules(rules, document);
         createHtmlFormPageDocument();
-        new SanitizerRule().apply(htmlFormPageDocument, null);
+        new SanitizerRule().apply(htmlFormPageDocument, null, null);
     }
 }

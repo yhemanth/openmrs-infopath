@@ -9,7 +9,7 @@ import java.util.List;
 public class SanitizerRule implements Rule {
 
     @Override
-    public void apply(Document document, List<Node> nodes) throws Exception {
+    public void apply(Document document, List<Node> nodes, String bindingName) throws Exception {
         NodeList list = XPathUtils.matchNodes(document, "//xsl:*");
         for (int i=0; i<list.getLength(); i++) {
             Node node = list.item(i);

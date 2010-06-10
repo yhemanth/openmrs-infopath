@@ -9,36 +9,32 @@ public class ObservationConversionTest extends AbstractConversionTest {
     @Test
     @Ignore
     public void shouldConvertCodedObservationWithSingleValueIntoOneObservationElement() throws Exception {
-        String patientHospitalizedControl = "<div><input class=\"xdBehavior_Boolean\" title=\"\" type=\"checkbox\" tabIndex=\"0\" xd:binding=\"obs/patient_hospitalized/value\" xd:xctname=\"CheckBox\" xd:CtrlId=\"CTRL1375\" xd:boundProp=\"xd:value\" xd:fixed=\"TRUE\" xd:offValue=\"1066^NO^99DCT\" xd:onValue=\"1065^YES^99DCT\">" +
-                "<xsl:attribute name=\"xd:value\">" +
-                "<xsl:value-of select=\"obs/patient_hospitalized/value\"/>" +
-                "</xsl:attribute>" +
-                "<xsl:if test=\"obs/patient_hospitalized/value=&quot;1065^YES^99DCT&quot;\">" +
-                "<xsl:attribute name=\"CHECKED\">CHECKED</xsl:attribute>" +
-                "</xsl:if>" +
+        String patientHospitalizedBinding = "obs/patient_hospitalized/value";
+        String patientHospitalizedControl = "<div>" +
+                "<input xd:binding=\"" + patientHospitalizedBinding + "\">" +
+                    "<xsl:attribute name=\"xd:value\">" +
+                    "<xsl:value-of select=\"obs/patient_hospitalized/value\"/>" +
+                    "</xsl:attribute>" +
+                    "<xsl:if test=\"obs/patient_hospitalized/value=&quot;1065^YES^99DCT&quot;\">" +
+                    "<xsl:attribute name=\"CHECKED\">CHECKED</xsl:attribute>" +
+                    "</xsl:if>" +
                 "</input>" +
-                "<span>" +
-                "<font size=\"1\" face=\"Arial\">patient est hospitalisé/ <font style=\"FONT-SIZE: 8pt\" color=\"#808080\">" +
-                "<strong>" +
-                "<em>patient is hospitalized </em>" +
-                "</strong>" +
-                "</font>" +
-                "</font>" +
-                "</span>" +
                 "</div>";
 
         Document testDocument = createTestDocument(patientHospitalizedControl);
 
         String convertedHtmlForm = convert(testDocument);
 
-        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(convertedHtmlForm, "TBD", "//obs[@conceptId=\"TBD\" and @answerConceptIds=\"TBD\"]");
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(
+                convertedHtmlForm, patientHospitalizedBinding,
+                "//obs[@conceptId=\"3389\" and @answerConceptIds=\"1065,1066\"]");
     }
 
     private String convert(Document testDocument) throws Exception {
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1"));
 
-        Rules rules = new Rules();
+        Rules rules = new Rules(new DummyConceptsDataSource());
         rules.add(new ObservationConversionRule());
 
         String convertedHtmlForm = pages.toHTMLForm(rules);

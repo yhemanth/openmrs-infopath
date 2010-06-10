@@ -2,12 +2,6 @@ package org.openmrs.module.htmlformentry.infopath;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class PatientConversionTest extends AbstractConversionTest {
 
@@ -22,7 +16,7 @@ public class PatientConversionTest extends AbstractConversionTest {
         Pages pages = new Pages();
         pages.add(new Page(xslDocument, "Page1"));
 
-        Rules rules = new Rules();
+        Rules rules = new Rules(new DummyConceptsDataSource());
         String patientGivenName = "patient/patient.given_name";
         rules.add(new SimpleRule(patientGivenName, "<lookup expression=\"patient.personName.givenName\"></lookup>"));
 

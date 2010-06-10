@@ -1,7 +1,6 @@
 package org.openmrs.module.htmlformentry.infopath;
 
 import org.junit.Test;
-import org.junit.Ignore;
 import org.w3c.dom.Document;
 
 public class HtmlFormSanitizerTest extends AbstractConversionTest {
@@ -30,7 +29,7 @@ public class HtmlFormSanitizerTest extends AbstractConversionTest {
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1"));
 
-        Rules rules = new Rules();
+        Rules rules = new Rules(new DummyConceptsDataSource());
 
         String convertedHtmlForm = pages.toHTMLForm(rules);
 

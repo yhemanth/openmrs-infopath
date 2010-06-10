@@ -18,7 +18,7 @@ public class MultiValuedBindingRule extends SimpleRule {
     }
 
     @Override
-    public void apply(Document document, List<Node> nodes) throws Exception {
+    public void apply(Document document, List<Node> nodes, String bindingName) throws Exception {
         Element htmlFormElement = createHtmlFormElement();
 
         for (Node node : nodes) {

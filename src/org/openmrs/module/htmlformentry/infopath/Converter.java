@@ -13,7 +13,7 @@ public class Converter {
     private Rules rules;
     private Pages pages;
 
-    public Converter(String... files) throws SAXException, IOException,
+    public Converter(ConceptsDataSource conceptsDataSource, String... files) throws SAXException, IOException,
             ParserConfigurationException {
         pages = new Pages();
         for (String file : files) {
@@ -21,7 +21,7 @@ public class Converter {
             Document xslDocument = XmlDocumentFactory.createXmlDocumentFromStream(fileStream);
             pages.add(new Page(xslDocument, getTitle(file)));
         }
-        rules = new Rules();
+        rules = new Rules(conceptsDataSource);
     }
 
     private String getTitle(String file) {

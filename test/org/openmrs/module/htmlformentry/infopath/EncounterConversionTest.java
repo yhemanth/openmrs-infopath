@@ -2,7 +2,6 @@ package org.openmrs.module.htmlformentry.infopath;
 
 import org.w3c.dom.Document;
 import org.junit.Test;
-import org.junit.Ignore;
 
 public class EncounterConversionTest extends AbstractConversionTest {
 
@@ -28,7 +27,7 @@ public class EncounterConversionTest extends AbstractConversionTest {
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1.xsl"));
 
-        Rules rules = new Rules();
+        Rules rules = new Rules(new DummyConceptsDataSource());
         String bindingName = "encounter/encounter.encounter_datetime";
         rules.add(new SimpleRule(bindingName, "<encounterDate />"));
 
@@ -72,7 +71,7 @@ public class EncounterConversionTest extends AbstractConversionTest {
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1"));
 
-        Rules rules = new Rules();
+        Rules rules = new Rules(new DummyConceptsDataSource());
         String encounterLocationBinding = "encounter/encounter.location_id";
         rules.add(new MultiValuedBindingRule(encounterLocationBinding, "xd:onValue",
                         "<encounterLocation />", "order"));
@@ -99,7 +98,7 @@ public class EncounterConversionTest extends AbstractConversionTest {
         Pages pages = new Pages();
         pages.add(new Page(testDocument, "Page1"));
 
-        Rules rules = new Rules();
+        Rules rules = new Rules(new DummyConceptsDataSource());
         rules.add(new SimpleRule(encounterProviderName, "<encounterProvider/>"));
 
         String convertedHtmlForm = pages.toHTMLForm(rules);

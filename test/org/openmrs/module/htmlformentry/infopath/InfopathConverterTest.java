@@ -25,7 +25,7 @@ public class InfopathConverterTest {
 
     @Test
     public void shouldConvertXSLFilesToHTMLFormPageElement() throws Exception {
-        Converter converter = new Converter(TEST_INFOPATH_PAGE_XSL);
+        Converter converter = new Converter(new DummyConceptsDataSource(), TEST_INFOPATH_PAGE_XSL);
         Document document = HtmlFormEntryUtil.stringToDocument(converter
                 .toHTMLForm());
         Assert.assertEquals("Page1", xpath.evaluate("/htmlform/page/@title",
@@ -34,7 +34,7 @@ public class InfopathConverterTest {
 
     @Test
     public void shouldConvertMultipleXSLFilesToHTMLFormPages() throws Exception {
-        Converter converter = new Converter(TEST_INFOPATH_PAGE_XSL,
+        Converter converter = new Converter(new DummyConceptsDataSource(), TEST_INFOPATH_PAGE_XSL,
                 TEST_INFOPATH_PAGE2_XSL);
         Document document = HtmlFormEntryUtil.stringToDocument(converter
                 .toHTMLForm());
@@ -46,7 +46,7 @@ public class InfopathConverterTest {
 
     @Test
     public void shouldConvertPatientToPatientLookup() throws Exception {
-        Converter converter = new Converter(TEST_INFOPATH_PATIENT_ATTRIBUTES_XSL);
+        Converter converter = new Converter(new DummyConceptsDataSource(), TEST_INFOPATH_PATIENT_ATTRIBUTES_XSL);
 
         String patientMedicalRecordNumber = "patient/patient.medical_record_number";
         String patientIdLookupAttribute = "patient.patientIdentifier.identifier";
@@ -72,7 +72,7 @@ public class InfopathConverterTest {
 
     @Test
     public void shouldConvertEncounterBindingsToEncounterElements() throws Exception {
-        Converter converter = new Converter(TEST_INFOPATH_ENCOUNTER_ATTRIBUTES_XSL);
+        Converter converter = new Converter(new DummyConceptsDataSource(), TEST_INFOPATH_ENCOUNTER_ATTRIBUTES_XSL);
 
         String dateBinding = "encounter/encounter.encounter_datetime";
         converter.addRule(new SimpleRule(dateBinding, "<encounterDate/>"));

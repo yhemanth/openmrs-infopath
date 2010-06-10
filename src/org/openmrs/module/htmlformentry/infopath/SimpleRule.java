@@ -20,7 +20,7 @@ public class SimpleRule implements Rule {
         this.htmlFormElement = htmlFormElement;
     }
 
-    public void apply(Document document, List<Node> nodes) throws Exception {
+    public void apply(Document document, List<Node> nodes, String bindingName) throws Exception {
         Element newElement = createHtmlFormElement();
         for (Node node : nodes) {
             replaceNode(document, node, newElement);
