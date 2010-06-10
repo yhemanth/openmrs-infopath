@@ -14,20 +14,8 @@ public class SanitizerRule implements Rule {
         for (int i=0; i<list.getLength(); i++) {
             Node node = list.item(i);
             Node parentNode = node.getParentNode();
-            if (stillIsAChild(parentNode, node)) {
-                parentNode.removeChild(node);
-            }
+            parentNode.removeChild(node);
         }
-    }
-
-    private boolean stillIsAChild(Node parentNode, Node node) {
-        NodeList childNodes = parentNode.getChildNodes();
-        for (int j=0; j<childNodes.getLength(); j++) {
-            if (childNodes.item(j) == node) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
