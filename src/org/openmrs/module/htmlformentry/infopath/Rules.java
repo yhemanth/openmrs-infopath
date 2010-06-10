@@ -16,7 +16,20 @@ public class Rules {
     }
 
     private Rule lookup(String bindingName) {
-        return rulesMap.get(bindingName);
+        Rule rule = rulesMap.get(bindingName);
+        if (rule == null) {
+            for (Map.Entry<String, Rule> ruleEntry : rulesMap.entrySet()) {
+                if (bindingIsAnExpression(bindingName, ruleEntry)) {
+                    rule = ruleEntry.getValue();
+                    break;
+                }
+            }
+        }
+        return rule;
+    }
+
+    private boolean bindingIsAnExpression(String bindingName, Map.Entry<String, Rule> ruleEntry) {
+        return bindingName.contains(ruleEntry.getKey());
     }
 
     public void add(Rule rule) {

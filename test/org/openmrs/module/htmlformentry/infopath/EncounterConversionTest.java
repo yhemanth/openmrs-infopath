@@ -85,15 +85,13 @@ public class EncounterConversionTest extends AbstractConversionTest {
     }
 
     @Test
-    @Ignore
     public void shouldConvertEncounterProvider() throws Exception {
 
-        String encounterProviderControl = "<div>\n" +
-                "<font size=\"2\">\n" +
-                "<font face=\"Arial\">Form completed today by: </font><span class=\"xdExpressionBox xdDataBindingUI\" title=\"\" tabIndex=\"-1\" xd:disableEditing=\"yes\" xd:binding=\"substring-after(encounter/encounter.provider_id, &quot;^&quot;)\" xd:xctname=\"ExpressionBox\" xd:CtrlId=\"CTRL120\" style=\"WIDTH: 369px; FONT-FAMILY: Arial; FONT-SIZE: medium; FONT-WEIGHT: bold\">\n" +
-                "<xsl:value-of select=\"substring-after(encounter/encounter.provider_id, &quot;^&quot;)\"/>\n" +
-                "</span>\n" +
-                "</font>\n" +
+        String encounterProviderName = "encounter/encounter.provider_id";
+        String encounterProviderControl = "<div><font>Form completed today by: </font>" +
+                "<span xd:binding=\"substring-after(" + encounterProviderName + ", &quot;^&quot;)\">" +
+                    "<xsl:value-of select=\"substring-after(encounter/encounter.provider_id, &quot;^&quot;)\"/>" +
+                "</span>" +
                 "</div>";
 
         Document testDocument = new PatientConversionTest().createTestDocument(encounterProviderControl);
@@ -102,10 +100,11 @@ public class EncounterConversionTest extends AbstractConversionTest {
         pages.add(new Page(testDocument, "Page1"));
 
         Rules rules = new Rules();
-        rules.add(new SimpleRule("TBD", "<encounterProvider/>"));
+        rules.add(new SimpleRule(encounterProviderName, "<encounterProvider/>"));
 
         String convertedHtmlForm = pages.toHTMLForm(rules);
 
-        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(convertedHtmlForm, "TBD", "//encounterProvider");
+        InfopathConverterAssert.assertBindingReplacedWithHtmlFormElement(
+                convertedHtmlForm, encounterProviderName, "//encounterProvider");
     }
 }
