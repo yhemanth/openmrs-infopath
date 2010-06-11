@@ -9,9 +9,13 @@ public class ObservationRuleFactory {
     }
 
     public ObservationConversionRule newObservationRule(String bindingName) {
-        if (bindingName.equals("obs")) {
-            return null;
+        String[] bindingComponents = bindingName.split("/");
+        for(int i=1; i<bindingComponents.length; i++) {
+            ConceptMetaData conceptMetaData = conceptsDataSource.getConceptMetaData(bindingComponents[i]);
+            if (conceptMetaData != null) {
+                return conceptMetaData.getConversionRule(bindingName);
+            }
         }
-        return new ObservationConversionRule();
+        return null;
     }
 }

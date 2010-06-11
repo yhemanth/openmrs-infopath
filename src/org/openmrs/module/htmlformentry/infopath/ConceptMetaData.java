@@ -3,19 +3,24 @@ package org.openmrs.module.htmlformentry.infopath;
 public class ConceptMetaData {
     private String id;
     private String name;
-    private String dataType;
-    private boolean isMultiple;
+    private ConceptDataType conceptDataType;
     private String[] answerConceptIds;
 
-    public ConceptMetaData(String id, String name, String dataType, boolean isMultiple, String... answerConceptIds) {
+    public ConceptMetaData(String id, String name, ConceptDataType dataType) {
         this.id = id;
         this.name = name;
-        this.dataType = dataType;
-        this.isMultiple = isMultiple;
-        this.answerConceptIds = answerConceptIds;
+        conceptDataType = dataType;
     }
 
     public String getName() {
         return name;
+    }
+
+    public ObservationConversionRule getConversionRule(String bindingName) {
+        return conceptDataType.getConversionRule(this);
+    }
+
+    public void setAnswerConceptIds(String... answerConceptIds) {
+        this.answerConceptIds = answerConceptIds;
     }
 }

@@ -16,4 +16,9 @@ public class SimulatedConceptDataSource implements ConceptsDataSource {
     public void addConceptMetaData(ConceptMetaData metaData) {
         conceptsMap.put(metaData.getName(), metaData);
     }
+
+    @Override
+    public ConceptMetaData getConceptMetaData(String bindingComponent) {
+        return conceptsMap.get(bindingComponent);
+    }
 }
