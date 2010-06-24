@@ -12,7 +12,7 @@ public class ObservationRuleFactoryTest {
     }
 
     @Test
-    public void shouldFindCodedSingleValuedConversionRuleForCodedSingleValuedConcept() throws Exception {
+    public void shouldFindCWESingleValuedConversionRuleForPatientHospitalizedConcept() throws Exception {
         ConceptsDataSource simulatedConceptsDataSource = new SimulatedConceptDataSource();
         ConceptMetaData metaData = new ConceptMetaData("3389", "patient_hospitalized", new CodedSingleValuedDataType());
         metaData.setAnswerConceptIds("1065", "1066");

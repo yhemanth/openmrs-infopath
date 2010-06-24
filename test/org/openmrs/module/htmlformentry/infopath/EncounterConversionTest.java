@@ -7,7 +7,7 @@ public class EncounterConversionTest extends AbstractConversionTest {
 
     @Test
     public void shouldReplaceEncounterDateBindingWithEncounterDateElement() throws Exception {
-        Document testDocument = createTestDocument("<span class=\"xdDTText xdBehavior_GTFormattingNoBUI\" " +
+        Document testDocument = createTestDocument("<span class='xdDTText xdBehavior_GTFormattingNoBUI' " +
                 "xd:binding=\"encounter/encounter.encounter_datetime\" xd:xctname=\"DTPicker_DTText\" >" +
                 "<xsl:attribute name=\"xd:num\">" +
                 "<xsl:value-of select=\"encounter/encounter.encounter_datetime\"/>" +
